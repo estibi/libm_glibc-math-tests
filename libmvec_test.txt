@@ -1,0 +1,14 @@
+gcc -lmvec -o libmvec_test_i386 libmvec_test.c
+gcc -lmvec -m64 -o libmvec_test_amd64 libmvec_test.c
+
+./libmvec_test_i386
+./libmvec_test_amd64
+
+ARCH="amd64"
+GATE_LIB="/illumos/illumos-gate/usr/src/lib"
+LD_PRELOAD="${GATE_LIB}/libm/${ARCH}/libm.so.2 ${GATE_LIB}/libmvec/${ARCH}/libmvec.so.1" ./libmvec_test_amd64
+
+ARCH="i386"
+GATE_LIB="/illumos/illumos-gate/usr/src/lib"
+LD_PRELOAD="${GATE_LIB}/libm/${ARCH}/libm.so.2 ${GATE_LIB}/libmvec/${ARCH}/libmvec.so.1" ./libmvec_test_i386
+
