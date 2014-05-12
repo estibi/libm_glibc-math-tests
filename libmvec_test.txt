@@ -8,7 +8,46 @@ ARCH="amd64"
 GATE_LIB="/illumos/illumos-gate/usr/src/lib"
 LD_PRELOAD="${GATE_LIB}/libm/${ARCH}/libm.so.2 ${GATE_LIB}/libmvec/${ARCH}/libmvec.so.1" ./libmvec_test_amd64
 
+
 ARCH="i386"
 GATE_LIB="/illumos/illumos-gate/usr/src/lib"
 LD_PRELOAD="${GATE_LIB}/libm/${ARCH}/libm.so.2 ${GATE_LIB}/libmvec/${ARCH}/libmvec.so.1" ./libmvec_test_i386
 
+---
+
+$ uname -a
+SunOS openindiana 5.11 illumos-5539384 i86pc i386 i86pc
+
+$ psrinfo -v
+Status of virtual processor 0 as of: 05/09/2014 00:11:09
+  on-line since 05/01/2014 11:37:07.
+  The i386 processor operates at 2400 MHz,
+        and has an i387 compatible floating point processor.
+Status of virtual processor 1 as of: 05/09/2014 00:11:09
+  on-line since 05/01/2014 11:37:14.
+  The i386 processor operates at 2400 MHz,
+        and has an i387 compatible floating point processor.
+
+
+$ gcc -lmvec -m64 -o libmvec_vcosf_loop_test libmvec_vcosf_loop_test.c
+
+
+# CLOSED SOURCE LIBMVEC
+$ time ./libmvec_vcosf_loop_test
+creating table with 100000 values..
+calling vcosf_ 20000 times in a loop..
+
+real    0m17.707s
+user    0m17.697s
+sys     0m0.005s
+
+
+# OPEN SOURCE LIBMVEC
+$ time LD_PRELOAD="${GATE_LIB}/libm/${ARCH}/libm.so.2 \
+    ${GATE_LIB}/libmvec/${ARCH}/libmvec.so.1" ./libmvec_vcosf_loop_test
+creating table with 100000 values..
+calling vcosf_ 20000 times in a loop..
+
+real    0m31.094s
+user    0m31.065s
+sys     0m0.013s
