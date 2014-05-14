@@ -160,20 +160,17 @@ test_vsin_()
 	show_results_double(y);
 }
 
+/*
 void
 test_vsinpi_()
 {
 	printf("Testing vsinpi_ - double\n");
 	double y[double_elements];
 
-	/*
-	 * void vsinpi_(int *n,double * restrict x, int *stridex,
-	 * double * restrict y, int *stridey);
-	 */
 	vsinpi_(&double_elements, double_x_tbl, &stridex, y, &stridey);
 	show_results_double(y);
 }
-
+*/
 
 void
 test_vsqrt_()
@@ -231,7 +228,8 @@ main()
 	test_vcosf_();
 	test_vcos_();
 	test_vsin_();
-	test_vsinpi_();
+	// vsinpi is only in closed libmvec
+	// test_vsinpi_();
 	test_vatan_();
 	test_vatanf_();
 	test_vexp_();
